@@ -1,110 +1,125 @@
 import 'package:flutter/material.dart';
 
-import 'backdrop.dart';
-import 'colors.dart';
-import 'home.dart';
-import 'login.dart';
-import 'category_menu_page.dart';
-import 'model/product.dart';
-import 'supplemental/cut_corners_border.dart';
+import 'service/fetch.dart';
+import 'model/country.dart';
 
-class ShrineApp extends StatefulWidget {
-  @override
-  _ShrineAppState createState() => _ShrineAppState();
-}
-
-class _ShrineAppState extends State<ShrineApp> {
-  Category _currentCategory = Category.all;
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shrine',
-      home: Backdrop(
-        currentCategory: _currentCategory,
-        frontLayer: HomePage(category: _currentCategory),
-        backLayer: CategoryMenuPage(
-          currentCategory: _currentCategory,
-          onCategoryTap: _onCategoryTap,
-        ),
-        frontTitle: Text('SHRINE'),
-        backTitle: Text('MENU'),
+    return new MaterialApp(
+      title: 'Future List Demo',
+      theme: new ThemeData(
+        primarySwatch: Colors.indigo,
       ),
-      initialRoute: '/login',
-      onGenerateRoute: _getRoute,
-      theme: _kShrineTheme,
+      home: new MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => new _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    var futureBuilder = new FutureBuilder(
+      future: fetchCountries(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return new Text('loading...');
+          default:
+            if (snapshot.hasError)
+              return new Text('Error: ${snapshot.error}');
+            else
+              return createListView(context, snapshot);
+        }
+      },
+    );
+
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Countries"),
+      ),
+      body: futureBuilder,
     );
   }
 
-  /// Function to call when a [Category] is tapped.
-  void _onCategoryTap(Category category) {
-    setState(() {
-      _currentCategory = category;
-    });
+  Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
+    List<Country> countries = snapshot.data;
+    return new ListView.builder(
+        itemCount: countries.length,
+        itemBuilder: (BuildContext context, int index) {
+          return new GestureDetector(
+              child: new Card(
+                  elevation: 1.7,
+                  child: new Padding(
+                      padding: new EdgeInsets.all(10.0),
+                      child: new Column(children: [
+                        new Row(children: <Widget>[
+                          new Padding(
+                            padding: new EdgeInsets.only(left: 4.0),
+                            child: new Text(
+                              countries[index].flag,
+                              style: new TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ),
+                        ]),
+                        new Row(children: <Widget>[
+                          new Padding(
+                            padding: new EdgeInsets.only(left: 4.0),
+                            child: new Text(
+                              countries[index].name,
+                              style: new TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ),
+                        ]),
+                        new Row(children: <Widget>[
+                          new Padding(
+                            padding: new EdgeInsets.only(left: 4.0),
+                            child: new Text(
+                              countries[index].subregion,
+                              style: new TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[500],
+                              ),
+                            ),
+                          ),
+                        ]),
+                        new Row(children: <Widget>[
+                          new Padding(
+                            padding: new EdgeInsets.only(left: 4.0),
+                            child: new Text(
+                              countries[index].capital,
+                              style: new TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[500],
+                              ),
+                            ),
+                          ),
+                        ]),
+                        new Row(children: <Widget>[
+                          new Padding(
+                            padding: new EdgeInsets.only(left: 4.0),
+                            child: new Text(
+                              countries[index].population.toString(),
+                              style: new TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[500],
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ]))));
+        });
   }
-}
-
-Route<dynamic> _getRoute(RouteSettings settings) {
-  if (settings.name != '/login') {
-    return null;
-  }
-
-  return MaterialPageRoute<void>(
-    settings: settings,
-    builder: (BuildContext context) => LoginPage(),
-    fullscreenDialog: true,
-  );
-}
-
-final ThemeData _kShrineTheme = _buildShrineTheme();
-
-IconThemeData _customIconTheme(IconThemeData original) {
-  return original.copyWith(color: kShrineBrown900);
-}
-
-ThemeData _buildShrineTheme() {
-  final ThemeData base = ThemeData.light();
-  return base.copyWith(
-    accentColor: kShrineBrown900,
-    primaryColor: kShrinePink100,
-    buttonColor: kShrinePink100,
-    scaffoldBackgroundColor: kShrineBackgroundWhite,
-    cardColor: kShrineBackgroundWhite,
-    textSelectionColor: kShrinePink100,
-    errorColor: kShrineErrorRed,
-    buttonTheme: ButtonThemeData(
-      textTheme: ButtonTextTheme.accent,
-    ),
-    primaryIconTheme: base.iconTheme.copyWith(color: kShrineBrown900),
-    inputDecorationTheme: InputDecorationTheme(
-      border: CutCornersBorder(),
-    ),
-    textTheme: _buildShrineTextTheme(base.textTheme),
-    primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
-    accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
-    iconTheme: _customIconTheme(base.iconTheme),
-  );
-}
-
-TextTheme _buildShrineTextTheme(TextTheme base) {
-  return base
-      .copyWith(
-        headline: base.headline.copyWith(
-          fontWeight: FontWeight.w500,
-        ),
-        title: base.title.copyWith(fontSize: 18.0),
-        caption: base.caption.copyWith(
-          fontWeight: FontWeight.w400,
-          fontSize: 14.0,
-        ),
-        body2: base.body2.copyWith(
-          fontWeight: FontWeight.w500,
-          fontSize: 16.0,
-        ),
-      )
-      .apply(
-        fontFamily: 'Rubik',
-        displayColor: kShrineBrown900,
-        bodyColor: kShrineBrown900,
-      );
 }
