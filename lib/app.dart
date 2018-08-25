@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'service/fetch.dart';
 import 'model/country.dart';
@@ -22,6 +23,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final formatter = new NumberFormat("#,###");
+
   @override
   Widget build(BuildContext context) {
     var futureBuilder = new FutureBuilder(
@@ -111,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           new Padding(
                             padding: new EdgeInsets.only(left: 4.0),
                             child: new Text(
-                              countries[index].population.toString(),
+                              formatter.format(countries[index].population),
                               style: new TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey[500],
