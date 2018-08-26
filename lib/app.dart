@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'service/fetch.dart';
 import 'model/country.dart';
 
@@ -65,20 +67,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: new Padding(
                     padding: new EdgeInsets.all(10.0),
                     child: new Column(children: [
-                      new Row(children: <Widget>[
-                        new Padding(
-                          padding: _itemPadding,
-                          child: new Text(
-                            countries[index].flag,
-                            style: _itemTextStyle(),
-                          ),
-                        ),
-                      ]),
                       new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             new Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new SvgPicture.network(
+                                    countries[index]
+                                        .flag
+                                        .replaceAll('https', 'http'),
+                                    height: 45.0,
+                                    width: 60.0,
+                                    placeholderBuilder:
+                                        (BuildContext context) => new Container(
+                                            padding: const EdgeInsets.all(60.0),
+                                            child:
+                                                const CircularProgressIndicator()),
+                                  ),
+                                ]),
+                            new Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   new Text(
                                     countries[index].name,
