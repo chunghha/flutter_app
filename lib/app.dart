@@ -55,14 +55,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Country> countries = snapshot.data;
-    const _itemPadding = EdgeInsets.only(left: 4.0);
 
     return new ListView.builder(
         itemCount: countries.length,
         itemBuilder: (BuildContext context, int index) {
           return new GestureDetector(
               child: new Card(
-                  color: Colors.brown[50],
+                  color: Colors.grey[50],
                   elevation: 1.7,
                   child: new Padding(
                     padding: new EdgeInsets.all(10.0),
@@ -79,8 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         .replaceAll('https', 'http'),
                                     height: 45.0,
                                     width: 60.0,
-                                    placeholderBuilder:
-                                        (BuildContext context) => new Container(
+                                    placeholderBuilder: (BuildContext context) =>
+                                        new Container(
                                             padding: const EdgeInsets.all(60.0),
                                             child:
                                                 const CircularProgressIndicator()),
