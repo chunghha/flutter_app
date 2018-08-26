@@ -76,30 +76,31 @@ class _MyHomePageState extends State<MyHomePage> {
                                     countries[index]
                                         .flag
                                         .replaceAll('https', 'http'),
-                                    height: 45.0,
-                                    width: 60.0,
+                                    height: 60.0,
+                                    width: 90.0,
                                     placeholderBuilder:
                                         (BuildContext context) => new Container(
-                                            padding: const EdgeInsets.all(60.0),
+                                            padding: const EdgeInsets.all(20.0),
                                             child:
                                                 const CircularProgressIndicator()),
                                   ),
                                 ]),
                             new Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
-                                  new Text(
-                                    countries[index].name,
-                                    style: _titleTextStyle(),
+                                  new Container(
+                                    alignment:  Alignment.centerRight,
+                                    padding: EdgeInsets.all(2.0),
+                                    width: 240.0,
+                                    child: new Text(
+                                      countries[index].name,
+                                      style: _titleTextStyle(),
+                                    ),
                                   ),
                                   new Text(
                                     countries[index].capital,
                                     style: _itemTextStyle(Colors.indigo[700]),
                                   ),
-                                ]),
-                            new Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
                                   new Text(
                                     countries[index].subregion,
                                     style: _itemTextStyle(Colors.brown[700]),
@@ -164,7 +165,8 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
         new Opacity(
           opacity: 0.3,
-          child: const ModalBarrier(dismissible: false, color: Colors.lightGreen),
+          child:
+              const ModalBarrier(dismissible: false, color: Colors.lightGreen),
         ),
         new Center(
           child: new CircularProgressIndicator(),
