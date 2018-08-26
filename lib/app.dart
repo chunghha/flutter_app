@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'Future List Demo',
       theme: new ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: Colors.teal,
       ),
       home: new MyHomePage(),
     );
@@ -53,6 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Country> countries = snapshot.data;
+    const _itemPadding = EdgeInsets.only(left: 4.0);
+
     return new ListView.builder(
         itemCount: countries.length,
         itemBuilder: (BuildContext context, int index) {
@@ -60,69 +62,61 @@ class _MyHomePageState extends State<MyHomePage> {
               child: new Card(
                   elevation: 1.7,
                   child: new Padding(
-                      padding: new EdgeInsets.all(10.0),
-                      child: new Column(children: [
-                        new Row(children: <Widget>[
-                          new Padding(
-                            padding: new EdgeInsets.only(left: 4.0),
-                            child: new Text(
-                              countries[index].flag,
-                              style: new TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.grey[700],
-                              ),
-                            ),
+                    padding: new EdgeInsets.all(10.0),
+                    child: new Column(children: [
+                      new Row(children: <Widget>[
+                        new Padding(
+                          padding: _itemPadding,
+                          child: new Text(
+                            countries[index].flag,
+                            style: _itemTextStyle(),
                           ),
-                        ]),
-                        new Row(children: <Widget>[
-                          new Padding(
-                            padding: new EdgeInsets.only(left: 4.0),
-                            child: new Text(
-                              countries[index].name,
-                              style: new TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.grey[700],
+                        ),
+                      ]),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                        new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Text(
+                                countries[index].name,
+                                style: _titleTextStyle(),
                               ),
-                            ),
-                          ),
-                        ]),
-                        new Row(children: <Widget>[
-                          new Padding(
-                            padding: new EdgeInsets.only(left: 4.0),
-                            child: new Text(
-                              countries[index].subregion,
-                              style: new TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey[500],
+                              new Text(
+                                countries[index].capital,
+                                style: _itemTextStyle(),
                               ),
-                            ),
-                          ),
-                        ]),
-                        new Row(children: <Widget>[
-                          new Padding(
-                            padding: new EdgeInsets.only(left: 4.0),
-                            child: new Text(
-                              countries[index].capital,
-                              style: new TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey[500],
+                            ]),
+                        new Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              new Text(
+                                countries[index].subregion,
+                                style: _itemTextStyle(),
                               ),
-                            ),
-                          ),
-                        ]),
-                        new Row(children: <Widget>[
-                          new Padding(
-                            padding: new EdgeInsets.only(left: 4.0),
-                            child: new Text(
-                              formatter.format(countries[index].population),
-                              style: new TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey[500],
+                              new Text(
+                                formatter.format(countries[index].population),
+                                style: _itemTextStyle(),
                               ),
-                            ),
-                          ),
-                        ]),
-                      ]))));
+                            ])
+                      ]),
+                    ]),
+                  )));
         });
+  }
+
+  _itemTextStyle() {
+    return TextStyle(
+      fontWeight: FontWeight.w500,
+      color: Colors.grey[500],
+    );
+  }
+
+  _titleTextStyle() {
+    return new TextStyle(
+      fontWeight: FontWeight.w700,
+      color: Colors.grey[700],
+    );
   }
 }
