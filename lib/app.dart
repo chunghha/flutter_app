@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return new Text('loading...');
+            return _getLoadingSpinner();
           default:
             if (snapshot.hasError)
               return new Text('Error: ${snapshot.error}');
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         itemBuilder: (BuildContext context, int index) {
           return new GestureDetector(
               child: new Card(
-                  color: Colors.grey[50],
+                  color: Colors.lightGreen[50],
                   elevation: 1.7,
                   child: new Padding(
                     padding: new EdgeInsets.all(10.0),
@@ -78,8 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         .replaceAll('https', 'http'),
                                     height: 45.0,
                                     width: 60.0,
-                                    placeholderBuilder: (BuildContext context) =>
-                                        new Container(
+                                    placeholderBuilder:
+                                        (BuildContext context) => new Container(
                                             padding: const EdgeInsets.all(60.0),
                                             child:
                                                 const CircularProgressIndicator()),
@@ -157,5 +157,19 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     return color;
+  }
+
+  _getLoadingSpinner() {
+    return Stack(
+      children: [
+        new Opacity(
+          opacity: 0.3,
+          child: const ModalBarrier(dismissible: false, color: Colors.lightGreen),
+        ),
+        new Center(
+          child: new CircularProgressIndicator(),
+        ),
+      ],
+    );
   }
 }
