@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         itemBuilder: (BuildContext context, int index) {
           return new GestureDetector(
               child: new Card(
+                  color: Colors.brown[50],
                   elevation: 1.7,
                   child: new Padding(
                     padding: new EdgeInsets.all(10.0),
@@ -74,49 +75,79 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ]),
                       new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                        new Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              new Text(
-                                countries[index].name,
-                                style: _titleTextStyle(),
-                              ),
-                              new Text(
-                                countries[index].capital,
-                                style: _itemTextStyle(),
-                              ),
-                            ]),
-                        new Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              new Text(
-                                countries[index].subregion,
-                                style: _itemTextStyle(),
-                              ),
-                              new Text(
-                                formatter.format(countries[index].population),
-                                style: _itemTextStyle(),
-                              ),
-                            ])
-                      ]),
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new Text(
+                                    countries[index].name,
+                                    style: _titleTextStyle(),
+                                  ),
+                                  new Text(
+                                    countries[index].capital,
+                                    style: _itemTextStyle(Colors.indigo[700]),
+                                  ),
+                                ]),
+                            new Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  new Text(
+                                    countries[index].subregion,
+                                    style: _itemTextStyle(Colors.brown[700]),
+                                  ),
+                                  new Row(
+                                    children: <Widget>[
+                                      new Text(
+                                        formatter.format(
+                                            countries[index].population),
+                                        style: _itemTextStyle(
+                                            _getColorPerPopulation(
+                                                countries[index].population)),
+                                      ),
+                                      new Icon(Icons.nature_people,
+                                          size: 16.0,
+                                          color: _getColorPerPopulation(
+                                              countries[index].population)),
+                                    ],
+                                  )
+                                ])
+                          ]),
                     ]),
                   )));
         });
   }
 
-  _itemTextStyle() {
+  _itemTextStyle([Color color = Colors.black]) {
     return TextStyle(
       fontWeight: FontWeight.w500,
-      color: Colors.grey[500],
+      color: color,
     );
   }
 
   _titleTextStyle() {
     return new TextStyle(
+      fontSize: 16.0,
       fontWeight: FontWeight.w700,
-      color: Colors.grey[700],
+      color: Colors.teal[700],
     );
+  }
+
+  _getColorPerPopulation(int population) {
+    Color color = Colors.green[700];
+
+    if (population > 100000000) {
+      color = Colors.red[700];
+    } else {
+      if (population > 10000000) {
+        color = Colors.orange[700];
+      } else {
+        if (population > 1000000) {
+          color = Colors.blue[700];
+        }
+      }
+    }
+
+    return color;
   }
 }
