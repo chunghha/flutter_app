@@ -62,7 +62,19 @@ class _MyHomePageState extends State<MyHomePage> {
           return new GestureDetector(
               child: new Card(
                   color: Colors.lightGreen[50],
-                  elevation: 1.7,
+                  elevation: 2.7,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.zero,
+                      topRight: Radius.zero,
+                      bottomLeft: Radius.circular(16.0),
+                      bottomRight: Radius.circular(16.0),
+                    ),
+                    side: BorderSide(
+                      color: Colors.lightGreen[200],
+                      width: 2.0,
+                    )
+                  ),
                   child: new Padding(
                     padding: new EdgeInsets.all(10.0),
                     child: new Column(children: [
