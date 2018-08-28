@@ -50,6 +50,62 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text("Countries"),
       ),
       body: futureBuilder,
+      drawer: new Drawer(
+        elevation: 8.0,
+        child: Container(
+          color: Color.fromRGBO(250, 250, 250, 0.05),
+          child: ListView(
+            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+            children: <Widget>[
+              Container(
+                height: 80.0,
+                child: DrawerHeader(
+                    child: new Text(
+                      'Countries',
+                      textAlign: TextAlign.center,
+                      style: new TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.brown[700]),
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      boxShadow: <BoxShadow>[
+                        new BoxShadow(
+                          color: Color.fromRGBO(235, 235, 235, 0.1),
+                          offset: new Offset(2.0, 8.0),
+                          blurRadius: 8.0,
+                        ),
+                      ],
+                      color: Color.fromRGBO(150, 150, 150, 0.15),
+                    ),
+                    margin: EdgeInsets.only(bottom: 10.0),
+                    padding: EdgeInsets.only(top: 10.0)),
+              ),
+              ListTile(
+                title: new FlatButton.icon(
+                  color: Colors.grey[300],
+                  icon: const Icon(Icons.home, size: 18.0),
+                  label: const Text('HOME'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              ListTile(
+                title: new FlatButton.icon(
+                  color: Colors.grey[300],
+                  icon: const Icon(Icons.help, size: 18.0),
+                  label: const Text('ABOUT'),
+                  onPressed: () {
+                    _showDialog();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -64,17 +120,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.lightGreen[50],
                   elevation: 2.7,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.zero,
-                      topRight: Radius.zero,
-                      bottomLeft: Radius.circular(16.0),
-                      bottomRight: Radius.circular(16.0),
-                    ),
-                    side: BorderSide(
-                      color: Colors.lightGreen[200],
-                      width: 2.0,
-                    )
-                  ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.zero,
+                        topRight: Radius.zero,
+                        bottomLeft: Radius.circular(16.0),
+                        bottomRight: Radius.circular(16.0),
+                      ),
+                      side: BorderSide(
+                        color: Colors.lightGreen[200],
+                        width: 2.0,
+                      )),
                   child: new Padding(
                     padding: new EdgeInsets.all(10.0),
                     child: new Column(children: [
@@ -101,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
                                   new Container(
-                                    alignment:  Alignment.centerRight,
+                                    alignment: Alignment.centerRight,
                                     padding: EdgeInsets.all(2.0),
                                     width: 240.0,
                                     child: new Text(
@@ -184,6 +239,29 @@ class _MyHomePageState extends State<MyHomePage> {
           child: new CircularProgressIndicator(),
         ),
       ],
+    );
+  }
+
+  _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Flutter App"),
+          content: new Text("Countries from REST service"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
