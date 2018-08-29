@@ -9,27 +9,27 @@ import 'model/country.dart';
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Future List Demo',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: new MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final formatter = new NumberFormat("#,###");
+  final formatter = NumberFormat("#,###");
 
   @override
   Widget build(BuildContext context) {
-    var futureBuilder = new FutureBuilder(
+    var futureBuilder = FutureBuilder(
       future: fetchCountries(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
@@ -38,19 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
             return _getLoadingSpinner();
           default:
             if (snapshot.hasError)
-              return new Text('Error: ${snapshot.error}');
+              return Text('Error: ${snapshot.error}');
             else
               return createListView(context, snapshot);
         }
       },
     );
 
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Countries"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Countries"),
       ),
       body: futureBuilder,
-      drawer: new Drawer(
+      drawer: Drawer(
         elevation: 8.0,
         child: Container(
           color: Color.fromRGBO(250, 250, 250, 0.05),
@@ -60,10 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 height: 80.0,
                 child: DrawerHeader(
-                    child: new Text(
+                    child: Text(
                       'Countries',
                       textAlign: TextAlign.center,
-                      style: new TextStyle(
+                      style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w700,
                           color: Colors.brown[700]),
@@ -71,9 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       boxShadow: <BoxShadow>[
-                        new BoxShadow(
+                        BoxShadow(
                           color: Color.fromRGBO(235, 235, 235, 0.1),
-                          offset: new Offset(2.0, 8.0),
+                          offset: Offset(2.0, 8.0),
                           blurRadius: 8.0,
                         ),
                       ],
@@ -83,20 +83,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: EdgeInsets.only(top: 10.0)),
               ),
               ListTile(
-                title: new FlatButton.icon(
+                title: FlatButton.icon(
                   color: Colors.grey[300],
-                  icon: const Icon(Icons.home, size: 18.0),
-                  label: const Text('HOME'),
+                  icon: Icon(Icons.home, size: 18.0),
+                  label: Text('HOME'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
               ),
               ListTile(
-                title: new FlatButton.icon(
+                title: FlatButton.icon(
                   color: Colors.grey[300],
-                  icon: const Icon(Icons.help, size: 18.0),
-                  label: const Text('ABOUT'),
+                  icon: Icon(Icons.help, size: 18.0),
+                  label: Text('ABOUT'),
                   onPressed: () {
                     _showDialog();
                   },
@@ -112,11 +112,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     List<Country> countries = snapshot.data;
 
-    return new ListView.builder(
+    return ListView.builder(
         itemCount: countries.length,
         itemBuilder: (BuildContext context, int index) {
-          return new GestureDetector(
-              child: new Card(
+          return GestureDetector(
+              child: Card(
                   color: Colors.lightGreen[50],
                   elevation: 2.7,
                   shape: RoundedRectangleBorder(
@@ -130,58 +130,57 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.lightGreen[200],
                         width: 2.0,
                       )),
-                  child: new Padding(
-                    padding: new EdgeInsets.all(10.0),
-                    child: new Column(children: [
-                      new Row(
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(children: [
+                      Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            new Column(
+                            Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  new SvgPicture.network(
+                                  SvgPicture.network(
                                     countries[index]
                                         .flag
                                         .replaceAll('https', 'http'),
                                     height: 60.0,
                                     width: 90.0,
                                     placeholderBuilder:
-                                        (BuildContext context) => new Container(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child:
-                                                const CircularProgressIndicator()),
+                                        (BuildContext context) => Container(
+                                            padding: EdgeInsets.all(20.0),
+                                            child: CircularProgressIndicator()),
                                   ),
                                 ]),
-                            new Column(
+                            Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
-                                  new Container(
+                                  Container(
                                     alignment: Alignment.centerRight,
                                     padding: EdgeInsets.all(2.0),
                                     width: 240.0,
-                                    child: new Text(
+                                    child: Text(
                                       countries[index].name,
                                       style: _titleTextStyle(),
                                     ),
                                   ),
-                                  new Text(
+                                  Text(
                                     countries[index].capital,
                                     style: _itemTextStyle(Colors.indigo[700]),
                                   ),
-                                  new Text(
+                                  Text(
                                     countries[index].subregion,
                                     style: _itemTextStyle(Colors.brown[700]),
                                   ),
-                                  new Row(
+                                  Row(
                                     children: <Widget>[
-                                      new Text(
+                                      Text(
                                         formatter.format(
                                             countries[index].population),
                                         style: _itemTextStyle(
                                             _getColorPerPopulation(
                                                 countries[index].population)),
                                       ),
-                                      new Icon(Icons.nature_people,
+                                      Icon(Icons.nature_people,
                                           size: 16.0,
                                           color: _getColorPerPopulation(
                                               countries[index].population)),
@@ -202,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _titleTextStyle() {
-    return new TextStyle(
+    return TextStyle(
       fontSize: 16.0,
       fontWeight: FontWeight.w700,
       color: Colors.teal[700],
@@ -230,13 +229,12 @@ class _MyHomePageState extends State<MyHomePage> {
   _getLoadingSpinner() {
     return Stack(
       children: [
-        new Opacity(
+        Opacity(
           opacity: 0.3,
-          child:
-              const ModalBarrier(dismissible: false, color: Colors.lightGreen),
+          child: ModalBarrier(dismissible: false, color: Colors.lightGreen),
         ),
-        new Center(
-          child: new CircularProgressIndicator(),
+        Center(
+          child: CircularProgressIndicator(),
         ),
       ],
     );
@@ -249,12 +247,12 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Flutter App"),
-          content: new Text("Countries from REST service"),
+          title: Text("Flutter App"),
+          content: Text("Countries from REST service"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
+            FlatButton(
+              child: Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
