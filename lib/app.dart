@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info/package_info.dart';
 
 import 'service/fetch.dart';
 import 'model/country.dart';
@@ -240,19 +241,32 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  _showDialog() {
+  _showDialog() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    var _version = packageInfo.version;
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: Text("Flutter App"),
-          content: Text("Countries from REST service"),
+          title: Text(
+            "Flutter App ($_version)",
+            style: _titleTextStyle(),
+            textAlign: TextAlign.center,
+          ),
+          content: Wrap(
+            children: <Widget>[
+              Text("Countries from REST service"),
+              FlutterLogo(
+                size: 20.0,
+              ),
+            ],
+          ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(
-              child: Text("Close"),
+              child: Text("CLOSE"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
