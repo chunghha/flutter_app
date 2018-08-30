@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info/package_info.dart';
 
-import 'service/fetch.dart';
-import 'model/country.dart';
+import 'package:flutter_app/service/fetch.dart';
+import 'package:flutter_app/model/country.dart';
 
 class MyApp extends StatelessWidget {
   @override
