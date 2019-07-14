@@ -144,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     countries[index]
                                         .flag
                                         .replaceAll('https', 'http'),
-                                    height: 60.0,
+                                    height: 70.0,
                                     width: 90.0,
                                     placeholderBuilder:
                                         (BuildContext context) => Container(
