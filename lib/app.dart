@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info/package_info.dart';
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Countries"),
+        title: Text("Countries", style: GoogleFonts.lobster()),
       ),
       body: futureBuilder,
       drawer: Drawer(
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             children: <Widget>[
               Container(
-                height: 80.0,
+                height: 120.0,
                 child: DrawerHeader(
                     child: Text(
                       'Countries',
@@ -161,25 +162,32 @@ class _MyHomePageState extends State<MyHomePage> {
                                     width: 240.0,
                                     child: Text(
                                       countries[index].name,
-                                      style: _titleTextStyle(),
+                                      style: GoogleFonts.montserrat(
+                                          textStyle: _titleTextStyle()),
                                     ),
                                   ),
                                   Text(
                                     countries[index].capital,
-                                    style: _itemTextStyle(Colors.indigo[700]),
+                                    style: GoogleFonts.poppins(
+                                        textStyle:
+                                            _itemTextStyle(Colors.indigo[700])),
                                   ),
                                   Text(
                                     countries[index].subregion,
-                                    style: _itemTextStyle(Colors.brown[700]),
+                                    style: GoogleFonts.rubik(
+                                        textStyle:
+                                            _itemTextStyle(Colors.brown[700])),
                                   ),
                                   Row(
                                     children: <Widget>[
                                       Text(
                                         formatter.format(
                                             countries[index].population),
-                                        style: _itemTextStyle(
-                                            _getColorPerPopulation(
-                                                countries[index].population)),
+                                        style: GoogleFonts.poppins(
+                                          textStyle: _itemTextStyle(
+                                              _getColorPerPopulation(
+                                                  countries[index].population)),
+                                        ),
                                       ),
                                       Icon(Icons.nature_people,
                                           size: 16.0,
@@ -243,7 +251,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _showDialog() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    var _version = packageInfo.version;
+    // For Web
+    // var _version = packageInfo.version;
+    var _version = '1.0.0+1';
     // flutter defined function
     showDialog(
       context: context,
