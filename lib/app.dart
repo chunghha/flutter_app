@@ -145,12 +145,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     countries[index]
                                         .flag
                                         .replaceAll('https', 'http'),
-                                    height: 70.0,
+                                    // height: 70.0,
                                     width: 90.0,
                                     placeholderBuilder:
                                         (BuildContext context) => Container(
-                                            padding: EdgeInsets.all(20.0),
-                                            child: CircularProgressIndicator()),
+                                            child: Placeholder(
+                                                fallbackHeight: 70.0,
+                                                fallbackWidth: 90.0)),
+                                    fit: BoxFit.fitWidth,
                                   ),
                                 ]),
                             Column(

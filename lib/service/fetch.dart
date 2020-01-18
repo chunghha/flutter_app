@@ -7,8 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_app/model/country.dart';
 
 Future<List<Country>> fetchCountries() async {
-  final response =
-      await http.get('https://restcountries.eu/rest/v2/all');
+  final response = await http.get('https://restcountries.eu/rest/v2/all');
 
   return compute(parseCountries, response.body);
 }
