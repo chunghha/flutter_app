@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter_app/model/country.dart';
+import 'package:fl_country/model/country.dart';
 
 Future<List<Country>> fetchCountries() async {
   final response = await http.get('https://restcountries.eu/rest/v2/all');

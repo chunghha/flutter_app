@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info/package_info.dart';
 
-import 'package:flutter_app/service/fetch.dart';
-import 'package:flutter_app/model/country.dart';
+import 'package:fl_country/service/fetch.dart';
+import 'package:fl_country/model/country.dart';
 
 class MyApp extends StatelessWidget {
   @override
